@@ -1,18 +1,17 @@
-import "package:flutter/material.dart";
-import 'package:quizlake/screens/authenticate/register.dart';
+import 'package:flutter/material.dart';
 import 'package:quizlake/service/auth.dart';
-import 'package:flutter/src/material/material_state.dart';
 
-class SignIn extends StatefulWidget {
-  // const SignIn({super.key});
+class Register extends StatefulWidget {
+  // const Register({super.key});
+
   final Function View;
-  SignIn(this.View);
+  Register(this.View);
 
   @override
-  State<SignIn> createState() => _SignInState();
+  State<Register> createState() => _RegisterState();
 }
 
-class _SignInState extends State<SignIn> {
+class _RegisterState extends State<Register> {
   final AuthService _authInstance = AuthService();
   final _formkey = GlobalKey<FormState>();
 
@@ -33,11 +32,11 @@ class _SignInState extends State<SignIn> {
                 widget.View();
               },
               icon: Icon(Icons.person_4_rounded),
-              label: Text("Register"))
+              label: Text("Sign In"))
         ],
         title: Center(
           child: Text(
-            "QuizLake",
+            'Sign Up',
             style: TextStyle(
               fontSize: 30,
             ),
@@ -78,15 +77,15 @@ class _SignInState extends State<SignIn> {
                               backgroundColor: Colors.indigo[900]),
                           onPressed: () async {
                             if (_formkey.currentState!.validate()) {
-                              dynamic result = _authInstance.SignInWithEmail(
-                                  email, password);
+                              dynamic result = await _authInstance
+                                  .registerWithEmail(email, password);
                               if (result == null) {
                                 setState(() => error = "User invalid");
                               }
                             }
                           },
                           child: Text(
-                            'LOG IN',
+                            'REGISTER',
                             style: TextStyle(color: Colors.white),
                           )),
                     ),
@@ -94,7 +93,7 @@ class _SignInState extends State<SignIn> {
                     Text(error,
                         style: TextStyle(
                           color: Colors.red,
-                        )),
+                        ))
                   ],
                 ))),
       ),

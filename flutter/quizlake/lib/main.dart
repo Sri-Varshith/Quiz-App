@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:quizlake/models/user.dart';
 import 'package:quizlake/screens/wrapper.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:provider/src/async_provider.dart';
+import 'package:quizlake/service/auth.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -14,8 +18,12 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Wrapper(),
+    return StreamProvider<UserClass?>.value(
+      initialData: null,
+      value: AuthService().user,
+      child: MaterialApp(
+        home: Wrapper(),
+      ),
     );
   }
 }
