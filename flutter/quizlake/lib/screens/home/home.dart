@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:quizlake/screens/home/create_quiz.dart';
 import 'package:quizlake/service/auth.dart';
 
 class Home extends StatelessWidget {
@@ -21,6 +22,13 @@ class Home extends StatelessWidget {
             icon: Icon(Icons.person),
           )
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => CreateQuiz()));
+        },
+        child: Icon(Icons.add),
       ),
     );
   }
