@@ -13,30 +13,33 @@ class CreateQuiz extends StatefulWidget {
 
 class _CreateQuizState extends State<CreateQuiz> {
   final _formkey = GlobalKey<FormState>();
-  DatabaseService databaseInstance = new DatabaseService();
+  DatabaseService _databaseInstance = new DatabaseService();
   bool _isloading = true;
 
   String quizTitle = "";
   String quizDescription = "";
   String quizId = "";
+  String roomID = "";
+
   publishQuiz() async {
     if (_formkey.currentState!.validate()) {
       setState(() {
         _isloading = true;
       });
       quizId = randomAlphaNumeric(16);
-
+      roomID = randomNumeric(6);
       Map<String, String> quizMap = {
         "quizId": quizId,
         "quizTitle": quizTitle,
         "quizDescription": quizDescription
       };
-      await databaseInstance.addQuizData(quizMap, quizId).then((value) {
+      await _databaseInstance.addQuizData(quizMap, quizId).then((value) {
         setState(() {
           Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                  builder: (context) => AddQuestion(quizId: quizId)));
+                  builder: (context) =>
+                      AddQuestion(quizId: quizId, roomID: roomID)));
         });
       });
     }

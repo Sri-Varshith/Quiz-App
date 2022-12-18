@@ -25,4 +25,26 @@ class DatabaseService {
       print(e.toString());
     });
   }
+
+  // create room the admin publishes quiz
+  Future CreateRoom(Map<String, dynamic> roomData, String roomID) async {
+    await FirebaseFirestore.instance
+        .collection("Room")
+        .doc(roomID)
+        .set(roomData)
+        .catchError((e) {
+      print(e.toString());
+    });
+  }
+
+  Future JoinRoom(Map<String, dynamic> userData, String roomID) async {
+    await FirebaseFirestore.instance
+        .collection("Room")
+        .doc(roomID)
+        .collection("Users")
+        .add(userData)
+        .catchError((e) {
+      print(e.toString());
+    });
+  }
 }

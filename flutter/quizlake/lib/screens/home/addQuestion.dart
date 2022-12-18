@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:quizlake/screens/home/your_room_id.dart';
 import 'package:quizlake/service/database.dart';
 import 'package:quizlake/widgets/widgets.dart';
 
 class AddQuestion extends StatefulWidget {
   // const AddQuestion({super.key});
   final String quizId;
-  AddQuestion({required this.quizId});
+  final String roomID;
+  AddQuestion({required this.quizId, required this.roomID});
 
   @override
   State<AddQuestion> createState() => _AddQuestionState();
@@ -13,7 +15,7 @@ class AddQuestion extends StatefulWidget {
 
 class _AddQuestionState extends State<AddQuestion> {
   final _formkey = GlobalKey<FormState>();
-  DatabaseService databaseInstance = new DatabaseService();
+  DatabaseService _databaseInstance = new DatabaseService();
   String question = "";
   String option1 = "";
   String option2 = "";
@@ -21,8 +23,13 @@ class _AddQuestionState extends State<AddQuestion> {
   String option4 = "";
   bool _isLoading = false;
 
-  publishQuestion() {
-    Navigator.pop(context);
+  publishQuestion(BuildContext context, VoidCallback OnSuccess) async {
+    Map<String, dynamic> RoomData = {
+      "roomID": widget.roomID,
+      "quizID": widget.quizId
+    };
+    await _databaseInstance.CreateRoom(RoomData, widget.roomID);
+    OnSuccess.call();
   }
 
   uploadQuestionData() async {
@@ -37,7 +44,7 @@ class _AddQuestionState extends State<AddQuestion> {
         "option3": option3,
         "option4": option4,
       };
-      await databaseInstance
+      await _databaseInstance
           .addQuestionData(questionMap, widget.quizId)
           .then((value) {
         setState(() {
@@ -128,7 +135,13 @@ class _AddQuestionState extends State<AddQuestion> {
                     height: 20,
                   ),
                   GestureDetector(
-                      onTap: (() => publishQuestion()),
+                      onTap: (() => publishQuestion(context, () {
+                            if (!mounted) return;
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => RoomID()));
+                          })),
                       child: VioletButton(
                         context,
                         "Publish",

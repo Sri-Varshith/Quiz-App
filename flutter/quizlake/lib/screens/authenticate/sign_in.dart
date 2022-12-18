@@ -3,6 +3,8 @@ import 'package:quizlake/screens/authenticate/register.dart';
 import 'package:quizlake/service/auth.dart';
 import 'package:flutter/src/material/material_state.dart';
 
+import '../../service/database.dart';
+
 class SignIn extends StatefulWidget {
   // const SignIn({super.key});
   final Function View;
@@ -14,11 +16,13 @@ class SignIn extends StatefulWidget {
 
 class _SignInState extends State<SignIn> {
   final AuthService _authInstance = AuthService();
+
   final _formkey = GlobalKey<FormState>();
 
   // storing text field states
   String email = "";
   String password = "";
+  String roomID = "";
   String error = "";
 
   @override
@@ -48,55 +52,60 @@ class _SignInState extends State<SignIn> {
         child: Container(
             padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 50.0),
             child: Form(
-                key: _formkey,
-                child: Column(
-                  children: <Widget>[
-                    SizedBox(height: 20.0),
-                    TextFormField(
-                      validator: (val) =>
-                          val!.isEmpty ? "Enter an Email" : null,
-                      onChanged: (val) {
-                        setState(() => email = val);
-                      },
-                    ),
-                    SizedBox(height: 20.0),
-                    TextFormField(
-                      obscureText: true,
-                      validator: (val) => val!.length < 6
-                          ? "Enter a password 6+ words long"
-                          : null,
-                      onChanged: (val) {
-                        setState(() => password = val);
-                      },
-                    ),
-                    SizedBox(height: 40.0),
-                    SizedBox(
-                      height: 36.0,
-                      width: 300,
-                      child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.indigo[900]),
-                          onPressed: () async {
-                            if (_formkey.currentState!.validate()) {
-                              dynamic result = _authInstance.SignInWithEmail(
-                                  email, password);
-                              if (result == null) {
-                                setState(() => error = "User invalid");
-                              }
+              key: _formkey,
+              child: Column(
+                children: <Widget>[
+                  SizedBox(height: 20.0),
+                  TextFormField(
+                    validator: (val) => val!.isEmpty ? "Enter an Email" : null,
+                    decoration: InputDecoration(hintText: "Email"),
+                    onChanged: (val) {
+                      setState(() => email = val);
+                    },
+                  ),
+                  SizedBox(height: 20.0),
+                  TextFormField(
+                    obscureText: true,
+                    validator: (val) => val!.length < 6
+                        ? "Enter a password 6+ words long"
+                        : null,
+                    decoration: InputDecoration(hintText: "Password"),
+                    onChanged: (val) {
+                      setState(() => password = val);
+                    },
+                  ),
+                  SizedBox(height: 40.0),
+                  SizedBox(
+                    height: 36.0,
+                    width: 300,
+                    child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.indigo[900]),
+                        onPressed: () async {
+                          if (_formkey.currentState!.validate()) {
+                            dynamic result =
+                                _authInstance.SignInWithEmail(email, password);
+                            if (result == null) {
+                              setState(() => error = "User invalid");
                             }
-                          },
-                          child: Text(
-                            'LOG IN',
-                            style: TextStyle(color: Colors.white),
-                          )),
-                    ),
-                    SizedBox(height: 12.0),
-                    Text(error,
-                        style: TextStyle(
-                          color: Colors.red,
+                          }
+                        },
+                        child: Text(
+                          'LOG IN',
+                          style: TextStyle(color: Colors.white),
                         )),
-                  ],
-                ))),
+                  ),
+                  SizedBox(height: 12.0),
+                  Text(error,
+                      style: TextStyle(
+                        color: Colors.red,
+                      )),
+                  SizedBox(
+                    height: 40.0,
+                  ),
+                ],
+              ),
+            )),
       ),
     );
   }
