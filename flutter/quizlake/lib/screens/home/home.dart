@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:quizlake/models/user.dart';
 import 'package:quizlake/screens/home/create_quiz.dart';
+import 'package:quizlake/screens/home/quiz_data_display.dart';
 import 'package:quizlake/service/auth.dart';
 import 'package:quizlake/service/database.dart';
 
@@ -21,6 +22,13 @@ class _HomeState extends State<Home> {
   String roomID = "";
 
   String error = "";
+
+  JoinRoom(String roomID, BuildContext context, VoidCallback OnSuccess) async {
+    final player = FirebaseAuth.instance.currentUser!.uid;
+    Map<String, String> userData = {"player": player};
+    dynamic join_room = await _databaseInstance.JoinRoom(userData, roomID);
+    OnSuccess.call();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,49 +55,65 @@ class _HomeState extends State<Home> {
         },
         child: Icon(Icons.add),
       ),
-      body: Center(
-        child: Container(
-          padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 50.0),
-          key: _formkey,
-          child: Form(
-              child: Column(
-            children: <Widget>[
-              SizedBox(
-                height: 50,
-              ),
-              TextFormField(
-                validator: (val) => val!.isEmpty ? "Room ID is INVALID" : null,
-                decoration: InputDecoration(hintText: "Room ID"),
-                onChanged: (value) {
-                  setState(() {
-                    roomID = value;
-                  });
-                },
-              ),
-              SizedBox(height: 12.0),
-              SizedBox(
-                height: 36.0,
-                width: 100,
-                child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.indigo[900]),
-                    onPressed: () async {
+      body: Form(
+        child: Center(
+          child: Container(
+            padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 50.0),
+            key: _formkey,
+            child: Form(
+                child: Column(
+              children: <Widget>[
+                SizedBox(
+                  height: 50,
+                ),
+                TextFormField(
+                  validator: (val) =>
+                      val!.isEmpty ? "Room ID is INVALID" : null,
+                  decoration: InputDecoration(hintText: "Room ID"),
+                  onChanged: (value) {
+                    setState(() {
+                      roomID = value;
+                    });
+                  },
+                ),
+                SizedBox(height: 12.0),
+                SizedBox(
+                  height: 36.0,
+                  width: 100,
+                  child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.indigo[900]),
+                      onPressed: (() {
+                        // if (_formkey.currentState!.validate()) {
+                        JoinRoom(roomID, context, () {
+                          if (!mounted) return;
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => QuizDisplay()));
+                        });
+                        // }
+                        ;
+                      }),
                       // if (_formkey.currentState!.validate()) {
-                      final player = FirebaseAuth.instance.currentUser!.uid;
-                      Map<String, String> userData = {"player": player};
-                      dynamic join_room =
-                          await _databaseInstance.JoinRoom(userData, roomID);
-                      if (join_room == null) {
-                        setState(() => error = "Room invalid");
-                      }
-                    },
-                    child: Text(
-                      'Join Room',
-                      style: TextStyle(color: Colors.white),
+
+                      // if (join_room == null) {
+                      //   setState(() => error = "Room invalid");
+                      // }
+
+                      child: Text(
+                        'Join Room',
+                        style: TextStyle(color: Colors.white),
+                      )),
+                ),
+                SizedBox(height: 12.0),
+                Text(error,
+                    style: TextStyle(
+                      color: Colors.red,
                     )),
-              ),
-            ],
-          )),
+              ],
+            )),
+          ),
         ),
       ),
     );

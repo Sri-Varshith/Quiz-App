@@ -47,4 +47,8 @@ class DatabaseService {
       print(e.toString());
     });
   }
+
+  Future GetQuizData() async {
+    return await FirebaseFirestore.instance.collection("Quiz").snapshots();
+  }
 }
