@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:quizlake/screens/home/your_room_id.dart';
+import 'package:quizlake/service/auth.dart';
 import 'package:quizlake/service/database.dart';
 import 'package:quizlake/widgets/widgets.dart';
 
@@ -16,6 +17,7 @@ class AddQuestion extends StatefulWidget {
 class _AddQuestionState extends State<AddQuestion> {
   final _formkey = GlobalKey<FormState>();
   DatabaseService _databaseInstance = new DatabaseService();
+  AuthService _authInstance = new AuthService();
   String question = "";
   String option1 = "";
   String option2 = "";

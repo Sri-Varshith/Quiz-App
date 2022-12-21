@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:quizlake/screens/home/addQuestion.dart';
+import 'package:quizlake/service/auth.dart';
 import 'package:quizlake/service/database.dart';
 import 'package:quizlake/widgets/widgets.dart';
 import 'package:random_string/random_string.dart';
@@ -14,6 +16,7 @@ class CreateQuiz extends StatefulWidget {
 class _CreateQuizState extends State<CreateQuiz> {
   final _formkey = GlobalKey<FormState>();
   DatabaseService _databaseInstance = new DatabaseService();
+  AuthService _authInstance = new AuthService();
   bool _isloading = true;
 
   String quizTitle = "";

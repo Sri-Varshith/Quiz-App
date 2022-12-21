@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:quizlake/service/auth.dart';
 import 'package:quizlake/service/database.dart';
 
 class QuizDisplay extends StatefulWidget {
@@ -11,22 +12,27 @@ class QuizDisplay extends StatefulWidget {
 
 class _QuizDisplayState extends State<QuizDisplay> {
   DatabaseService _databaseInstance = new DatabaseService();
+  AuthService _authInstance = new AuthService();
+
   Stream quizstream = Stream.empty();
   Widget quizList() {
     return Container(
+      padding: EdgeInsets.symmetric(horizontal: 24),
       child: StreamBuilder(
           stream: quizstream,
           builder: ((context, AsyncSnapshot snapshot) {
             return snapshot.data == null
                 ? Container()
                 : ListView.builder(
-                    itemCount: snapshot.data.documents.length,
+                    itemCount: snapshot.data!.docs.length,
                     itemBuilder: ((context, index) {
                       return QuizTile(
-                          desc: snapshot
-                              .data.documents[index].data["quizDescription"],
-                          title:
-                              snapshot.data.documents[index].data["quizTitle"]);
+                          desc: snapshot.data!.docs
+                              .elementAt(index)
+                              .get("quizDescription"),
+                          title: snapshot.data!.docs
+                              .elementAt(index)
+                              .get("quizTitle"));
                     }));
           })),
     );
@@ -60,13 +66,32 @@ class QuizTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin: EdgeInsets.only(bottom: 12),
+      height: 150,
       child: Stack(
         children: [
-          Image.network(
-              "https://4kwallpapers.com/images/walls/thumbs_3t/8324.png"),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(10),
+            child: Image.network(
+              "https://4kwallpapers.com/images/walls/thumbs_3t/8324.png",
+              width: MediaQuery.of(context).size.width - 48,
+              fit: BoxFit.cover,
+            ),
+          ),
           Container(
+            alignment: Alignment.center,
             child: Column(
-              children: [Text(title), Text(desc)],
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  title,
+                  style: TextStyle(color: Colors.white, fontSize: 18),
+                ),
+                Text(
+                  desc,
+                  style: TextStyle(color: Colors.white, fontSize: 18),
+                )
+              ],
             ),
           )
         ],

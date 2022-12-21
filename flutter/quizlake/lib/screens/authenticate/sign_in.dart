@@ -36,7 +36,7 @@ class _SignInState extends State<SignIn> {
               onPressed: () {
                 widget.View();
               },
-              icon: Icon(Icons.person_4_rounded),
+              icon: Icon(Icons.person),
               label: Text("Register"))
         ],
         title: Center(
