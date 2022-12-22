@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import "package:firebase_auth/firebase_auth.dart";
@@ -36,6 +37,15 @@ class DatabaseService {
   // create room the admin publishes quiz
   Future CreateRoom(Map<String, dynamic> roomData, String roomID) async {
     final String uid = FirebaseAuth.instance.currentUser!.uid;
+
+    await FirebaseFirestore.instance
+        .collection("Room")
+        .doc(roomID)
+        .set(roomData)
+        .catchError((e) {
+      print(e.toString());
+    });
+
     await FirebaseFirestore.instance
         .collection("User")
         .doc(uid)
@@ -45,34 +55,47 @@ class DatabaseService {
         .catchError((e) {
       print(e.toString());
     });
-
-    await FirebaseFirestore.instance
-        .collection("Room")
-        .doc(roomID)
-        .set(roomData)
-        .catchError((e) {
-      print(e.toString());
-    });
   }
 
-  Future JoinRoom(Map<String, dynamic> userData, String roomID) async {
-    final String uid = FirebaseAuth.instance.currentUser!.uid;
+  Future JoinRoom(Map<String, dynamic> PlayerData, String roomID) async {
     await FirebaseFirestore.instance
         .collection("Room")
         .doc(roomID)
         .collection("Players")
-        .add(userData)
+        .add(PlayerData)
         .catchError((e) {
       print(e.toString());
     });
   }
 
   Future GetQuizData(String roomID) async {
+    String uid = "";
+    String quizID = "";
+    await FirebaseFirestore.instance
+        .collection("Room")
+        .doc(roomID)
+        .get()
+        .then((value) => uid = value.get("userID"));
+    await FirebaseFirestore.instance
+        .collection("Room")
+        .doc(roomID)
+        .get()
+        .then((value) => quizID = value.get("quizID"));
+
+    return await FirebaseFirestore.instance
+        .collection("User")
+        .doc(uid)
+        .collection("Quiz")
+        .doc(quizID)
+        .snapshots();
+  }
+
+  Future getRoomData() async {
     final String uid = FirebaseAuth.instance.currentUser!.uid;
     return await FirebaseFirestore.instance
         .collection("User")
-        .doc(roomID)
-        .collection("Quiz")
+        .doc(uid)
+        .collection("Room")
         .snapshots();
   }
 }

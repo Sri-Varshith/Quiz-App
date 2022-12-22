@@ -1,10 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:quizlake/screens/play_quiz.dart';
 import 'package:quizlake/service/auth.dart';
 import 'package:quizlake/service/database.dart';
 
 class QuizDisplay extends StatefulWidget {
-  const QuizDisplay({super.key});
+  // const QuizDisplay({super.key});
+  final String roomID;
+  QuizDisplay(this.roomID);
 
   @override
   State<QuizDisplay> createState() => _QuizDisplayState();
@@ -32,7 +35,10 @@ class _QuizDisplayState extends State<QuizDisplay> {
                               .get("quizDescription"),
                           title: snapshot.data!.docs
                               .elementAt(index)
-                              .get("quizTitle"));
+                              .get("quizTitle"),
+                          quizID: snapshot.data!.docs
+                              .elementAt(index)
+                              .get("quizId"));
                     }));
           })),
     );
@@ -41,7 +47,7 @@ class _QuizDisplayState extends State<QuizDisplay> {
   @override
   void initState() {
     // TODO: implement initState
-    _databaseInstance.GetQuizData().then((value) {
+    _databaseInstance.GetQuizData(widget.roomID).then((value) {
       setState(() {
         quizstream = value;
       });
@@ -61,40 +67,47 @@ class QuizTile extends StatelessWidget {
   // const QuizTile({super.key});
   final String title;
   final String desc;
-  QuizTile({required this.desc, required this.title});
+  final String quizID;
+  QuizTile({required this.desc, required this.title, required this.quizID});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(bottom: 12),
-      height: 150,
-      child: Stack(
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(10),
-            child: Image.network(
-              "https://4kwallpapers.com/images/walls/thumbs_3t/8324.png",
-              width: MediaQuery.of(context).size.width - 48,
-              fit: BoxFit.cover,
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => PlayQuiz(quizId: quizID)));
+      },
+      child: Container(
+        margin: EdgeInsets.only(bottom: 12),
+        height: 150,
+        child: Stack(
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(10),
+              child: Image.network(
+                "https://4kwallpapers.com/images/walls/thumbs_3t/8324.png",
+                width: MediaQuery.of(context).size.width - 48,
+                fit: BoxFit.cover,
+              ),
             ),
-          ),
-          Container(
-            alignment: Alignment.center,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  title,
-                  style: TextStyle(color: Colors.white, fontSize: 18),
-                ),
-                Text(
-                  desc,
-                  style: TextStyle(color: Colors.white, fontSize: 18),
-                )
-              ],
-            ),
-          )
-        ],
+            Container(
+              alignment: Alignment.center,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    title,
+                    style: TextStyle(color: Colors.white, fontSize: 18),
+                  ),
+                  Text(
+                    desc,
+                    style: TextStyle(color: Colors.white, fontSize: 18),
+                  )
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

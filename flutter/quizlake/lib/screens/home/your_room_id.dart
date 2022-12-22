@@ -5,7 +5,9 @@ import 'package:quizlake/service/database.dart';
 import 'package:random_string/random_string.dart';
 
 class RoomID extends StatefulWidget {
-  const RoomID({super.key});
+  // const RoomID({super.key});
+  final String roomID;
+  RoomID(this.roomID);
 
   @override
   State<RoomID> createState() => _RoomIDState();
@@ -24,7 +26,7 @@ class _RoomIDState extends State<RoomID> {
           padding: EdgeInsets.symmetric(vertical: 350.0, horizontal: 30.0),
           child: Column(children: <Widget>[
             Text(
-              "Your Room ID ",
+              "Your Room ID is ${widget.roomID} ",
               style: TextStyle(fontSize: 30),
             ),
             SizedBox(

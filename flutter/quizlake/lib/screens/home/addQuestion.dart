@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:quizlake/screens/home/your_room_id.dart';
 import 'package:quizlake/service/auth.dart';
@@ -28,7 +29,8 @@ class _AddQuestionState extends State<AddQuestion> {
   publishQuestion(BuildContext context, VoidCallback OnSuccess) async {
     Map<String, dynamic> RoomData = {
       "roomID": widget.roomID,
-      "quizID": widget.quizId
+      "quizID": widget.quizId,
+      "userID": FirebaseAuth.instance.currentUser!.uid
     };
     await _databaseInstance.CreateRoom(RoomData, widget.roomID);
     OnSuccess.call();
@@ -142,7 +144,8 @@ class _AddQuestionState extends State<AddQuestion> {
                             Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => RoomID()));
+                                    builder: (context) =>
+                                        RoomID(widget.roomID)));
                           })),
                       child: VioletButton(
                         context,

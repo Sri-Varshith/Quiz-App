@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:quizlake/models/user.dart';
 import 'package:quizlake/screens/home/create_quiz.dart';
@@ -30,6 +31,40 @@ class _HomeState extends State<Home> {
     OnSuccess.call();
   }
 
+  Stream Roomstream = Stream.empty();
+  Widget RoomList() {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 24),
+      child: StreamBuilder(
+          stream: Roomstream,
+          builder: ((context, AsyncSnapshot snapshot) {
+            return snapshot.data == null
+                ? Container()
+                : ListView.builder(
+                    scrollDirection: Axis.vertical,
+                    shrinkWrap: true,
+                    itemCount: snapshot.data!.docs.length,
+                    itemBuilder: ((context, index) {
+                      return RoomTile(
+                        RoomID:
+                            snapshot.data!.docs.elementAt(index).get("roomID"),
+                      );
+                    }));
+          })),
+    );
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    _databaseInstance.getRoomData().then((value) {
+      setState(() {
+        Roomstream = value;
+      });
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,65 +90,118 @@ class _HomeState extends State<Home> {
         },
         child: Icon(Icons.add),
       ),
-      body: Form(
-        child: Center(
-          child: Container(
-            padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 50.0),
-            key: _formkey,
-            child: Form(
-                child: Column(
-              children: <Widget>[
-                SizedBox(
-                  height: 50,
-                ),
-                TextFormField(
-                  validator: (val) =>
-                      val!.isEmpty ? "Room ID is INVALID" : null,
-                  decoration: InputDecoration(hintText: "Room ID"),
-                  onChanged: (value) {
-                    setState(() {
-                      roomID = value;
-                    });
-                  },
-                ),
-                SizedBox(height: 12.0),
-                SizedBox(
-                  height: 36.0,
-                  width: 100,
-                  child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.indigo[900]),
-                      onPressed: (() {
-                        // if (_formkey.currentState!.validate()) {
-                        JoinRoom(roomID, context, () {
-                          if (!mounted) return;
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => QuizDisplay()));
-                        });
-                        // }
-                        ;
-                      }),
-                      // if (_formkey.currentState!.validate()) {
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Form(
+              child: Center(
+                child: Container(
+                  padding:
+                      EdgeInsets.symmetric(vertical: 20.0, horizontal: 50.0),
+                  key: _formkey,
+                  child: Form(
+                      child: Column(
+                    children: <Widget>[
+                      SizedBox(
+                        height: 50,
+                      ),
+                      TextFormField(
+                        validator: (val) =>
+                            val!.isEmpty ? "Room ID is INVALID" : null,
+                        decoration: InputDecoration(hintText: "Room ID"),
+                        onChanged: (value) {
+                          setState(() {
+                            roomID = value;
+                          });
+                        },
+                      ),
+                      SizedBox(height: 12.0),
+                      SizedBox(
+                        height: 36.0,
+                        width: 100,
+                        child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.indigo[900]),
+                            onPressed: (() {
+                              // if (_formkey.currentState!.validate()) {
+                              JoinRoom(roomID, context, () {
+                                if (!mounted) return;
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            QuizDisplay(roomID)));
+                              });
+                              // }
+                              ;
+                            }),
+                            // if (_formkey.currentState!.validate()) {
 
-                      // if (join_room == null) {
-                      //   setState(() => error = "Room invalid");
-                      // }
+                            // if (join_room == null) {
+                            //   setState(() => error = "Room invalid");
+                            // }
 
-                      child: Text(
-                        'Join Room',
-                        style: TextStyle(color: Colors.white),
-                      )),
+                            child: Text(
+                              'Join Room',
+                              style: TextStyle(color: Colors.white),
+                            )),
+                      ),
+                      SizedBox(height: 12.0),
+                      Text(error,
+                          style: TextStyle(
+                            color: Colors.red,
+                          )),
+                    ],
+                  )),
                 ),
-                SizedBox(height: 12.0),
-                Text(error,
-                    style: TextStyle(
-                      color: Colors.red,
-                    )),
-              ],
-            )),
-          ),
+              ),
+            ),
+            Container(child: RoomList())
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class RoomTile extends StatelessWidget {
+  // const RoomTile({super.key});
+  final String RoomID;
+  RoomTile({required this.RoomID});
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: (() {}),
+      child: Container(
+        decoration:
+            BoxDecoration(border: Border.all(color: Colors.black, width: 3)),
+        margin: EdgeInsets.only(bottom: 12),
+        height: 100,
+        child: Stack(
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(10),
+              child: Image.network(
+                "https://icons.veryicon.com/png/o/system/remote-cost-control/room-3.png",
+                width: MediaQuery.of(context).size.width - 48,
+                fit: BoxFit.fitHeight,
+                alignment: Alignment.centerLeft,
+              ),
+            ),
+            Container(
+              alignment: Alignment.center,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "Room ID :$RoomID",
+                    style: TextStyle(color: Colors.black, fontSize: 18),
+                  )
+                ],
+              ),
+            )
+          ],
         ),
       ),
     );
