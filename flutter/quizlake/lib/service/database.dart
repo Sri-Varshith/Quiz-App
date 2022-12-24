@@ -98,4 +98,12 @@ class DatabaseService {
         .collection("Room")
         .snapshots();
   }
+
+  Future GetPlayers(String roomID) async {
+    return await FirebaseFirestore.instance
+        .collection("Room")
+        .doc(roomID)
+        .collection("Players")
+        .snapshots();
+  }
 }

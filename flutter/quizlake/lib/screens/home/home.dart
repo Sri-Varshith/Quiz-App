@@ -2,8 +2,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:quizlake/models/user.dart';
+import 'package:quizlake/screens/home/Display_playerSide.dart';
 import 'package:quizlake/screens/home/create_quiz.dart';
 import 'package:quizlake/screens/home/quiz_data_display.dart';
+import 'package:quizlake/screens/player_displayAdmin.dart';
 import 'package:quizlake/service/auth.dart';
 import 'package:quizlake/service/database.dart';
 
@@ -130,7 +132,7 @@ class _HomeState extends State<Home> {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
-                                            QuizDisplay(roomID)));
+                                            PlayerSideDisplay(RoomID: roomID)));
                               });
                               // }
                               ;
@@ -172,7 +174,10 @@ class RoomTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: (() {}),
+      onTap: (() {
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => DisplayPlayers(RoomID)));
+      }),
       child: Container(
         decoration:
             BoxDecoration(border: Border.all(color: Colors.black, width: 3)),
@@ -185,7 +190,7 @@ class RoomTile extends StatelessWidget {
               child: Image.network(
                 "https://icons.veryicon.com/png/o/system/remote-cost-control/room-3.png",
                 width: MediaQuery.of(context).size.width - 48,
-                fit: BoxFit.fitHeight,
+                fit: BoxFit.contain,
                 alignment: Alignment.centerLeft,
               ),
             ),
