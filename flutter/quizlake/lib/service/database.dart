@@ -58,11 +58,13 @@ class DatabaseService {
   }
 
   Future JoinRoom(Map<String, dynamic> PlayerData, String roomID) async {
+    final String uid = FirebaseAuth.instance.currentUser!.uid;
     await FirebaseFirestore.instance
         .collection("Room")
         .doc(roomID)
         .collection("Players")
-        .add(PlayerData)
+        .doc(uid)
+        .set(PlayerData)
         .catchError((e) {
       print(e.toString());
     });

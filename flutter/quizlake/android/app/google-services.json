@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "931452398942-fbh34njkqvjchg1odf59q9hm5q2f10o4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.quizlake",
+            "certificate_hash": "99f6cd44387a63b79834f6b99b812f8df596dd62"
+          }
+        },
+        {
           "client_id": "931452398942-30mte61l3duvlmvrb7tailr834392k3i.apps.googleusercontent.com",
           "client_type": 3
         }

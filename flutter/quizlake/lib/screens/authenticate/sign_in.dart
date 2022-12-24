@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:quizlake/screens/authenticate/register.dart';
 import 'package:quizlake/service/auth.dart';
 import 'package:flutter/src/material/material_state.dart';
@@ -50,7 +51,7 @@ class _SignInState extends State<SignIn> {
       ),
       body: Center(
         child: Container(
-            padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 50.0),
+            padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 40.0),
             child: Form(
               key: _formkey,
               child: Column(
@@ -101,8 +102,29 @@ class _SignInState extends State<SignIn> {
                         color: Colors.red,
                       )),
                   SizedBox(
-                    height: 40.0,
+                    height: 15.0,
                   ),
+                  SizedBox(
+                    child: ElevatedButton.icon(
+                        style: ElevatedButton.styleFrom(
+                            primary: Colors.white,
+                            onPrimary: Colors.black,
+                            minimumSize: Size(double.infinity, 50)),
+                        icon: FaIcon(
+                          FontAwesomeIcons.google,
+                          color: Colors.red[800],
+                        ),
+                        onPressed: () {
+                          _authInstance.GoogleLogin();
+                        },
+                        label: Text(
+                          "Sign In with Google",
+                        )),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text("Log In easily using your Gmail Account")
                 ],
               ),
             )),

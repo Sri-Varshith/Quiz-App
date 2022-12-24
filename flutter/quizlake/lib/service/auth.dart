@@ -1,4 +1,5 @@
 import "package:firebase_auth/firebase_auth.dart";
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:quizlake/models/user.dart';
 
 class AuthService {
@@ -16,6 +17,25 @@ class AuthService {
         .authStateChanges()
         .map((User? user) => _userFromFirebaseUser(user));
     // can also use .map(_userFromFirebaseUser);
+  }
+
+  Future GoogleLogin() async {
+    try {
+      final GoogleSignInAccount? googleUser =
+          await GoogleSignIn(scopes: <String>["email"]).signIn();
+
+      final GoogleSignInAuthentication googleAuth =
+          await googleUser!.authentication;
+
+      final credential = GoogleAuthProvider.credential(
+          accessToken: googleAuth.accessToken, idToken: googleAuth.idToken);
+      UserCredential result = await _auth.signInWithCredential(credential);
+      User? user = result.user;
+      return _userFromFirebaseUser(user);
+    } catch (e) {
+      print(e.toString());
+      return null;
+    }
   }
 
   Future signInAnon() async {
@@ -59,6 +79,8 @@ class AuthService {
   //  sign out
   Future signingOut() async {
     try {
+      GoogleSignIn googleSignIn = GoogleSignIn();
+      await googleSignIn.signOut();
       return _auth.signOut();
     } catch (e) {
       print(e.toString());
