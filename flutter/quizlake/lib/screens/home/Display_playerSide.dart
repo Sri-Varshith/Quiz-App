@@ -34,6 +34,11 @@ class _PlayerSideDisplayState extends State<PlayerSideDisplay> {
     );
   }
 
+  LeaveRoom(String roomID, BuildContext context, VoidCallback OnSuccess) async {
+    dynamic join_room = await _databaseInstance.LeaveRoom(roomID);
+    OnSuccess.call();
+  }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -50,7 +55,18 @@ class _PlayerSideDisplayState extends State<PlayerSideDisplay> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.deepPurple[800],
-        title: Text("Players"),
+        title: Center(child: Text("Players")),
+        actions: <Widget>[
+          TextButton.icon(
+              onPressed: () {
+                LeaveRoom(widget.RoomID, context, () {
+                  if (!mounted) return;
+                  Navigator.pop(context);
+                });
+              },
+              icon: Icon(Icons.exit_to_app_rounded),
+              label: Text("Exit Room"))
+        ],
       ),
       body: playerList(),
     );

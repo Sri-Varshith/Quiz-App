@@ -45,7 +45,9 @@ class _SignInState extends State<SignIn> {
             "QuizLake",
             style: TextStyle(
               fontSize: 30,
+              fontWeight: FontWeight.bold,
             ),
+            textAlign: TextAlign.center,
           ),
         ),
       ),

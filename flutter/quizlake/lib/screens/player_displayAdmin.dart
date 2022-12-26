@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:quizlake/screens/play_quiz.dart';
 import 'package:quizlake/service/database.dart';
 
 class DisplayPlayers extends StatefulWidget {
@@ -14,6 +15,7 @@ class _DisplayPlayersState extends State<DisplayPlayers> {
   DatabaseService _databaseInstance = new DatabaseService();
 
   Stream playerstream = Stream.empty();
+
   Widget playerList() {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 24),
@@ -52,7 +54,12 @@ class _DisplayPlayersState extends State<DisplayPlayers> {
         backgroundColor: Colors.deepPurple[800],
         actions: <Widget>[
           TextButton.icon(
-              onPressed: (() {}),
+              onPressed: (() {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => PlayQuiz(roomID: widget.RoomID)));
+              }),
               icon: Icon(Icons.quiz_sharp),
               label: Text("Start Quiz"))
         ],

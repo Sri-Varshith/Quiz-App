@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:quizlake/screens/home/isQuizStarted.dart';
 import 'package:quizlake/models/user.dart';
 import 'package:quizlake/screens/wrapper.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -22,7 +23,8 @@ class MyApp extends StatelessWidget {
       initialData: null,
       value: AuthService().user,
       child: MaterialApp(
-        home: Wrapper(),
+        home: ChangeNotifierProvider(
+            create: (_) => QuizState(), child: Wrapper()),
       ),
     );
   }

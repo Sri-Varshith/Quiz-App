@@ -108,4 +108,34 @@ class DatabaseService {
         .collection("Players")
         .snapshots();
   }
+
+  Future LeaveRoom(String roomID) async {
+    final String uid = FirebaseAuth.instance.currentUser!.uid;
+    await FirebaseFirestore.instance
+        .collection("Room")
+        .doc(roomID)
+        .collection("Players")
+        .doc(uid)
+        .delete();
+  }
+
+  Future getQuestionData(String roomID) async {
+    final String uid = FirebaseAuth.instance.currentUser!.uid;
+    String quizID = "";
+    var docsnapshot =
+        await FirebaseFirestore.instance.collection("Room").doc(roomID).get();
+
+    if (docsnapshot.exists) {
+      Map<String, dynamic> Fielddata = docsnapshot.data()!;
+      quizID = Fielddata["quizID"];
+    }
+
+    return await FirebaseFirestore.instance
+        .collection("Users")
+        .doc(uid)
+        .collection("Quiz")
+        .doc(quizID)
+        .collection("MCQs")
+        .get();
+  }
 }
