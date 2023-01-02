@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:quizlake/models/question_model.dart';
@@ -73,14 +75,18 @@ class _PlayQuizState extends State<PlayQuiz> {
       body: Container(
         child: Column(
           children: [
-            ListView.builder(
-                itemCount: questionsnapshot!.docs.length,
-                itemBuilder: (context, index) {
-                  return QuizTile(
-                      questionModel: GetQuestionModelFromSnapshot(
-                          questionsnapshot!.docs.elementAt(index)),
-                      index: index);
-                }),
+            questionsnapshot != null
+                ? ListView.builder(
+                    itemCount: questionsnapshot!.docs.length,
+                    itemBuilder: (context, index) {
+                      return QuizTile(
+                          questionModel: GetQuestionModelFromSnapshot(
+                              questionsnapshot!.docs.elementAt(index)),
+                          index: index);
+                    })
+                : Container(
+                    child: Text("null"),
+                  )
           ],
         ),
       ),

@@ -136,6 +136,7 @@ class DatabaseService {
         .collection("Quiz")
         .doc(quizID)
         .collection("MCQs")
-        .get();
+        .doc()
+        .snapshots();
   }
 }
