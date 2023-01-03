@@ -21,20 +21,23 @@ class _RoomIDState extends State<RoomID> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Center(
-        child: Container(
-          padding: EdgeInsets.symmetric(vertical: 350.0, horizontal: 30.0),
-          child: Column(children: <Widget>[
-            Text(
-              "Your Room ID is ${widget.roomID} ",
-              style: TextStyle(fontSize: 30),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Text("Share this ID for your people to join the room",
-                style: TextStyle(fontSize: 16))
-          ]),
+        child: SingleChildScrollView(
+          child: Container(
+            padding: EdgeInsets.symmetric(vertical: 350.0, horizontal: 30.0),
+            child: Column(children: <Widget>[
+              Text(
+                "Your Room ID is ${widget.roomID} ",
+                style: TextStyle(fontSize: 30),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Text("Share this ID for your people to join the room",
+                  style: TextStyle(fontSize: 16))
+            ]),
+          ),
         ),
       ),
     );
