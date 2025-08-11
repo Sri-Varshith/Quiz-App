@@ -4,8 +4,7 @@ A **real-time, time-bounded** quizzing, polling, and survey platform built to en
 
 Whether it's a competitive quiz round, live poll in an event, or anonymous data collection for projects and research — this platform brings it all under one roof with **real-time performance**, **leaderboards**, and **past result storage**.  
  
-> ⚠️ **Looking for a Maintainer!**  
-> If you're interested in full-stack dev, data science, or building tools for campus use — reach out and take ownership of this project!
+
 
 ---
 
@@ -72,9 +71,10 @@ You’re free to customize the stack as needed, but here’s what we recommend:
 
 Contributions are very welcome — feature ideas, bug fixes, UI improvements, or deployment help!
 
-> **Looking for a Maintainer!**  
+
 > Interested in owning the project? Ping me or raise an issue! It's a great opportunity to build something useful for the whole IIT Bhilai community.
 
+- [@Sri-Varshith](https://github.com/Sri-Varshith)
 ---
 
 ## 📂 Directory Structure (Suggested)
