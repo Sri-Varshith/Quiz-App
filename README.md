@@ -1,37 +1,49 @@
-# 📊 IIT Bhilai Quizzing & Survey Platform
-
-A **real-time, time-bounded** quizzing, polling, and survey platform built to engage students at **IIT Bhilai**, with a strong emphasis on **data science use-cases** and academic participation.  
-
-Whether it's a competitive quiz round, live poll in an event, or anonymous data collection for projects and research — this platform brings it all under one roof with **real-time performance**, **leaderboards**, and **past result storage**.  
  
+<h1 align="center">Quiz App</h1>
+
+<p align="center">
+A real-time, time-bounded quizzing, polling, and survey platform built to engage students at IIT Bhilai, with a strong emphasis on data science use-cases and academic participation.  
+</p>
+
+<p align="center">
+    <!-- Status Options: Change `Deployed` to `In Development`, `Planned`, etc. -->
+    <img src="https://img.shields.io/badge/Status-Deployed-brightgreen" alt="Status: Deployed" />
+    <!-- Development Stage Options: Change `Ongoing` to `Completed`, `Maintenance`, etc. -->
+    <img src="https://img.shields.io/badge/Development-Ongoing-blue" alt="Development: Ongoing" />
+    <!-- License Options: Change `MIT` to your preferred license -->
+    <img src="https://img.shields.io/badge/License-MIT-yellow" alt="License: MIT" />
+</p>
+<p align="center">
+<p align="center">
+    <!-- Automatically updates based on repo -->
+    <img src="https://img.shields.io/github/issues-pr-closed/your-username/project-name?color=success" alt="Pull Requests Merged" />
+    <img src="https://img.shields.io/github/issues/your-username/project-name?color=orange" alt="Open Issues" />
+    <img src="https://img.shields.io/github/contributors/your-username/project-name" alt="Contributors" />
+</p>
+</p>
+
+---
+
+## Repository Links <sup>[↥ Back to top](#table-of-contents)</sup>
+- **Main Repository:** [OpenLake](https://github.com/OpenLake)
+- **This Project Repository:** [Quiz App](https://github.com/Sri-Varshith/Quiz-App)
+
+
 
 
 ---
 
-## 🚀 Features
-
-- 🧠 **Time-Bounded Quizzes**  
-  Create and conduct live quizzes with start/end timers and real-time question reveal.
-
-- 📶 **Real-Time Leaderboard**  
-  See scores update instantly as participants submit answers.
-
-- 📋 **Surveys & Polls**  
-  Gather feedback, conduct research surveys, and live polls during talks/events.
-
-- 🗃️ **Quiz Archive**  
-  Access past quizzes and results for review, practice, or study.
-
-- 👤 **User Profiles (Coming Soon)**  
-  Track individual performance across events, see rankings, and more.
-
-- 🔒 **Authentication & Roles**  
-  Admins/moderators, quiz creators, and participants with different privileges.
+## Table of Contents
+1. [About the Project](#about-the-project)
+2. [Getting Started](#getting-started)
+3. [Usage](#usage)
+4. [Contributing](#contributing)
+5. [Maintainers](#maintainers)
+6. [License](#license)
 
 ---
 
-## 🎯 Purpose
-
+## About the Project <sup>[↥ Back to top](#table-of-contents)</sup>
 This platform was built with the following goals:
 
 - Encourage academic and co-curricular engagement on campus  
@@ -39,50 +51,52 @@ This platform was built with the following goals:
 - Enable clubs, departments, and faculty to conduct **interactive sessions**
 - Promote healthy competition and preparation via quizzes
 
----
-
-## 🛠 Recommended Tech Stack
-
-You’re free to customize the stack as needed, but here’s what we recommend:
-
-### **Frontend**
-- `Next.js` (App Router)
-- `Tailwind CSS` / `Shadcn/ui`
-- `Socket.io Client` for real-time updates
-- `Recharts` or `Chart.js` for analytics
-
-### **Backend**
-- `FastAPI` or `NestJS` for performance and flexibility
-- `PostgreSQL` or `MongoDB` for storing quiz data
-- `Redis` for real-time leaderboard caching
-- `Socket.io` or `WebSockets` for real-time functionality
-
-### **Authentication**
-- Firebase Auth (or Supabase Auth / Clerk)
-
-### **Deployment & Infra**
-- Dockerized services for ease of deployment  
-- `Railway`, `Render`, or `Fly.io` for hosting  
-- `Prometheus + Grafana` for internal analytics and performance tracking (optional)
 
 ---
 
-## 🤝 Contributing
+## Getting Started <sup>[↥ Back to top](#table-of-contents)</sup>
 
-Contributions are very welcome — feature ideas, bug fixes, UI improvements, or deployment help!
-
-
-> Interested in owning the project? Ping me or raise an issue! It's a great opportunity to build something useful for the whole IIT Bhilai community.
-
-- [@Sri-Varshith](https://github.com/Sri-Varshith)
----
-
-## 📂 Directory Structure (Suggested)
+### Prerequisites
+List the dependencies and tools required.
 
 ```bash
-/
-├── frontend/        # Next.js App
-├── backend/         # FastAPI/NestJS Server
-├── db/              # Schema, seed scripts
-├── docs/            # API docs, diagrams, planning
-└── README.md
+# Example for Node.js
+npm install
+````
+
+### Installation
+
+Step-by-step instructions to set up locally.
+
+---
+
+## Usage <sup>[↥ Back to top](#table-of-contents)</sup>
+
+Provide examples of how to run or use the project.
+
+```bash
+npm start
+```
+
+Explain configuration options if needed.
+
+---
+
+## Contributing <sup>[↥ Back to top](#table-of-contents)</sup>
+
+We welcome contributions!
+See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+
+---
+
+## Maintainers <sup>[↥ Back to top](#table-of-contents)</sup>
+Current Maintainers: [@Sri-Varshith](https://github.com/Sri-Varshith) <br>
+See [MAINTAINERS.md](MAINTAINERS.md) for a full list.
+
+---
+
+## License <sup>[↥ Back to top](#table-of-contents)</sup>
+
+Distributed under the MIT License.
+See [LICENSE](LICENSE) for details.
+ 
